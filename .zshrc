@@ -89,6 +89,13 @@ alias zr='source ~/.zshrc'
 alias i='yay -S'
 alias nv='nvim'
 
+# eza alias
+alias el='eza --icons'
+alias ell='eza -l --icons'
+alias ela='eza --icons -a'
+alias ella='eza -la --icons'
+alias elt='eza --icons -T'
+
 # Git Aliases
 alias g='git'
 alias gi='git init'
