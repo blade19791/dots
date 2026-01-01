@@ -32,7 +32,7 @@ opt.ignorecase = true            -- Ignore case when searching
 opt.smartcase = true             -- If uppercase used, search becomes sensitive
 opt.incsearch = true             -- Incremental search
 opt.hlsearch = true              -- Highlight search results
-opt.cursorline = true            -- Easy to see where your cursor is in large files
+-- opt.cursorline = true            -- Easy to see where your cursor is in large files
 opt.cursorlineopt = "both"		 -- Highlight number + full line
 
 ----------------------------------------------------------
