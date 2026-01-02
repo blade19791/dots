@@ -57,6 +57,22 @@ vim.api.nvim_create_autocmd("LspAttach", {
 local severity = vim.diagnostic.severity
 
 vim.diagnostic.config({
+	-- 🔹 INLINE diagnostics (modern style)
+	virtual_text = {
+		spacing = 4,
+		prefix = "●", -- could be "▎", "", or ""
+		severity = {
+			min = severity.HINT,
+		},
+	},
+
+	-- 🔹 Floating diagnostics
+	float = {
+		border = "rounded",
+		source = "if_many",
+	},
+
+	-- 🔹 Signs in gutter
 	signs = {
 		text = {
 			[severity.ERROR] = " ",
@@ -65,4 +81,8 @@ vim.diagnostic.config({
 			[severity.INFO] = " ",
 		},
 	},
+
+	underline = true,
+	update_in_insert = false,
+	severity_sort = true,
 })

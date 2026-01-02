@@ -12,6 +12,7 @@ return {
 				"emmet_ls",
 				"pyright",
 				"eslint",
+				"clangd",
 			},
 		},
 		dependencies = {
@@ -40,6 +41,7 @@ return {
 				"black", -- python formatter
 				"pylint",
 				"eslint_d",
+				"clang-format",
 			},
 		},
 		dependencies = {

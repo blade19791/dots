@@ -1,37 +1,16 @@
 return {
-	-- "folke/tokyonight.nvim",
-	-- lazy = false,    -- load during startup
-	-- priority = 1000, -- load before other UI plugins
-	-- config = function()
-	--   require("tokyonight").setup({
-	--     style = "storm", -- storm | night | moon | day
-	--     transparent = false,
-	--     terminal_colors = true,
-	--     styles = {
-	--       comments = { italic = true },
-	--       keywords = { italic = true },
-	--       functions = {},
-	--       variables = {},
-	--     },
-	--     sidebars = { "qf", "help", "terminal", "lazy" },
-	--   })
-	--
-	--   vim.cmd("colorscheme tokyonight")
-	-- end,
+	-- Dracula
+	{ "Mofiqul/dracula.nvim", lazy = false },
 
-	-- nord theme
-	"shaunsingh/nord.nvim",
-	lazy = false,
-	priority = 1000,
-	config = function()
-		vim.g.nord_contrast = true
-		vim.g.nord_borders = true
-		vim.g.nord_disable_background = false
-		vim.g.nord_italic = true
-		vim.g.nord_uniform_diff_background = true
-		vim.g.nord_bold = true
-		vim.g.nord_disable_background = true
+	-- Tokyo Night
+	{ "folke/tokyonight.nvim", lazy = false, priority = 1000 },
 
-		vim.cmd("colorscheme nord")
-	end,
+	-- Nord
+	{ "shaunsingh/nord.nvim", lazy = false },
+
+	-- Rose Pine
+	{ "rose-pine/neovim", name = "rose-pine", lazy = false },
+
+	-- Catppuccin
+	{ "catppuccin/nvim", name = "catppuccin", lazy = false },
 }
