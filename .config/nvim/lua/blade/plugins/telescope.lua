@@ -1,8 +1,9 @@
 return {
 	{
 		"nvim-telescope/telescope.nvim",
-		branch = "0.1.x", -- use the stable branch
+
 		dependencies = { "nvim-lua/plenary.nvim" },
+
 		config = function()
 			local builtin = require("telescope.builtin")
 			vim.keymap.set("n", "<Leader>ff", builtin.find_files, {})
@@ -12,6 +13,10 @@ return {
 
 			require("telescope").setup({
 				defaults = {
+					-- teporary treesitter highlighting to false till the up problem is fixed
+					preview = {
+						treesitter = false,
+					},
 					-- Default configuration for telescope goes here:
 					mappings = {
 						i = {

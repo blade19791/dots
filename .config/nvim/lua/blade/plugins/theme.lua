@@ -13,4 +13,15 @@ return {
 
 	-- Catppuccin
 	{ "catppuccin/nvim", name = "catppuccin", lazy = false },
+	-- gruvbox
+	{
+		"ellisonleao/gruvbox.nvim",
+		name = "gruvbox",
+		lazy = false,
+		config = function()
+			require("gruvbox").setup({
+				transparent_mode = false,
+			})
+		end,
+	},
 }
