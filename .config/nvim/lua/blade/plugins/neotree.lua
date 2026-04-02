@@ -10,6 +10,9 @@ return {
 		-- Setup Neo-tree with some basic configuration
 		require("neo-tree").setup({
 			close_if_last_window = true, -- Close Neo-tree if it's the last window left
+			window = {
+				width = 30,
+			},
 			filesystem = {
 				follow_current_file = {
 					enabled = true, -- This will focus the file in the tree when switching buffers

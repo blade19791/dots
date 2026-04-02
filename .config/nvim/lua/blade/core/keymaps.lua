@@ -146,16 +146,6 @@ end, {
 	desc = "Reload Neovim config",
 })
 
--- -- Toggle next theme
--- vim.keymap.set("n", "<leader>tt", function()
--- 	require("core.themes").next()
--- end, { desc = "Toggle themes" })
---
--- -- Pick theme via Telescope
--- vim.keymap.set("n", "<leader>ft", function()
--- 	require("core.themes").pick()
--- end, { desc = "Pick theme (Telescope)" })
-
 -- telescope theme keymaps
 vim.keymap.set("n", "<leader>ft", function()
 	local telescope = require("telescope.builtin")
