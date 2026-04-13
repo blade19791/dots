@@ -159,13 +159,13 @@ vim.keymap.set("n", "<leader>ft", function()
 			map("i", "<CR>", function(bufnr)
 				local selection = action_state.get_selected_entry()
 				actions.close(bufnr)
-				theme.set(selection.value)
+				vim.cmd("colorscheme " .. selection.value)
 			end)
 
 			map("n", "<CR>", function(bufnr)
 				local selection = action_state.get_selected_entry()
 				actions.close(bufnr)
-				theme.set(selection.value)
+				vim.cmd("colorscheme " .. selection.value)
 			end)
 
 			return true
