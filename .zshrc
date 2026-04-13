@@ -19,6 +19,8 @@ export ZSH_CUSTOM="$HOME/.oh-my-zsh/custom"
 plugins=(
   git
   zsh-completions
+  zsh-syntax-highlighting
+  zsh-autocomplete
 )
 
 # Load Oh My Zsh
