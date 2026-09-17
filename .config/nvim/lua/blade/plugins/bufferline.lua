@@ -1,60 +1,87 @@
 return {
-	"akinsho/bufferline.nvim",
-	dependencies = {
-		"moll/vim-bbye",
-		"nvim-tree/nvim-web-devicons",
-	},
-	config = function()
-		require("bufferline").setup({
-			options = {
-				mode = "buffers", -- set to "tabs" to only show tabpages instead
-				themable = true, -- allows highlight groups to be overriden i.e. sets highlights as default
-				numbers = "none", -- | "ordinal" | "buffer_id" | "both" | function({ ordinal, id, lower, raise }): string,
-				close_command = "bdelete! %d", -- can be a string | function, see "mouse actions"
-				buffer_close_icon = "✗",
-				close_icon = "✗",
-				path_components = 1, -- show only the file name without the directory
-				modified_icon = "●",
-				left_trunc_marker = "",
-				right_trunc_marker = "",
-				max_name_length = 30,
-				max_prefix_length = 30, -- prefix used when a buffer is de-duplicated
-				tab_size = 21,
-				diagnostics = false,
-				diagnostics_update_in_insert = false,
-				color_icons = true,
-				show_buffer_icons = true,
-				show_buffer_close_icons = true,
-				show_close_icon = true,
-				persist_buffer_sort = true, -- whether or not custom sorted buffers should persist
-				separator_style = { "any" }, -- | "thick" | "thin" | { 'any', 'any' },
-				enforce_regular_tabs = true,
-				always_show_bufferline = true,
-				show_tab_indicators = false,
-				indicator = {
-					-- icon = "▎", -- this should be omitted if indicator style is not 'icon'
-					style = "none", -- Options: 'icon', 'underline', 'none'
-				},
-				icon_pinned = "󰐃",
-				minimum_padding = 1,
-				maximum_padding = 5,
-				maximum_length = 15,
-				sort_by = "insert_at_end",
-			},
-			highlights = {
-				-- separator = {
-				-- 	fg = "#FFFFFF",
-				-- },
-				buffer_selected = {
-					bold = true,
-					italic = false,
-				},
-				-- separator_selected = {},
-				-- tab_selected = {},
-				-- background = {},
-				-- indicator_selected = {},
-				-- fill = {},
-			},
-		})
-	end,
+    "akinsho/bufferline.nvim",
+    event = "VeryLazy",
+    dependencies = {
+        "moll/vim-bbye",
+        "echasnovski/mini.icons",
+    },
+    keys = {
+        { "<leader>bp", "<Cmd>BufferLineTogglePin<CR>",            desc = "Toggle Pin" },
+        { "<leader>bP", "<Cmd>BufferLineGroupClose ungrouped<CR>", desc = "Delete Non-Pinned Buffers" },
+        { "<leader>br", "<Cmd>BufferLineCloseRight<CR>",           desc = "Delete Buffers to the Right" },
+        { "<leader>bl", "<Cmd>BufferLineCloseLeft<CR>",            desc = "Delete Buffers to the Left" },
+        { "<S-h>",      "<cmd>BufferLineCyclePrev<cr>",            desc = "Prev Buffer" },
+        { "<S-l>",      "<cmd>BufferLineCycleNext<cr>",            desc = "Next Buffer" },
+        { "[b",         "<cmd>BufferLineCyclePrev<cr>",            desc = "Prev Buffer" },
+        { "]b",         "<cmd>BufferLineCycleNext<cr>",            desc = "Next Buffer" },
+        { "[B",         "<cmd>BufferLineMovePrev<cr>",             desc = "Move buffer prev" },
+        { "]B",         "<cmd>BufferLineMoveNext<cr>",             desc = "Move buffer next" },
+        { "<leader>bj", "<cmd>BufferLinePick<cr>",                 desc = "Pick Buffer" },
+    },
+    init = function()
+        -- omarchy (LazyVim) serves nvim-web-devicons from mini.icons, which is
+        -- where the filetype icons in the bufferline come from.
+        package.preload["nvim-web-devicons"] = function()
+            require("mini.icons").mock_nvim_web_devicons()
+            return package.loaded["nvim-web-devicons"]
+        end
+    end,
+    opts = {
+        options = {
+            mode = "tabs", -- show tabpages as tabs instead of individual buffers
+            -- omarchy closes the buffer but keeps the window (Snacks.bufdelete);
+            -- vim-bbye's :Bdelete does the same thing here.
+            -- stylua: ignore
+            close_command = function(n)
+                vim.cmd.Bdelete(n)
+            end,
+            -- stylua: ignore
+            right_mouse_command = function(n)
+                vim.cmd.Bdelete(n)
+            end,
+            diagnostics = "nvim_lsp",
+            always_show_bufferline = false,
+            diagnostics_indicator = function(_, _, diag)
+                local icons = {
+                    Error = "",
+                    Warn = "",
+                    Hint = "",
+                    Info = "",
+                }
+                local ret = (diag.error and icons.Error .. diag.error .. " " or "")
+                    .. (diag.warning and icons.Warn .. diag.warning or "")
+                return vim.trim(ret)
+            end,
+            offsets = {
+                {
+                    filetype = "neo-tree",
+                    text = "Neo-tree",
+                    highlight = "Directory",
+                    text_align = "left",
+                },
+            },
+            -- Same small per-filetype overrides as LazyVim.config.icons.ft;
+            -- returning nil lets bufferline fall back to the icon provider.
+            get_element_icon = function(opts)
+                local icons_ft = {
+                    octo = "",
+                    gh = "",
+                    ["markdown.gh"] = "",
+                }
+                return icons_ft[opts.filetype]
+            end,
+        },
+    },
+    config = function(_, opts)
+        require("bufferline").setup(opts)
+        -- Fix bufferline when restoring a session
+        vim.api.nvim_create_autocmd({ "BufAdd", "BufDelete" }, {
+            callback = function()
+                vim.schedule(function()
+                    pcall(nvim_bufferline)
+                end)
+            end,
+        })
+    end,
 }
+

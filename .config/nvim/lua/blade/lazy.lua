@@ -16,6 +16,9 @@ require("lazy").setup({
       { import = "blade.plugins" },
       { import = "blade.plugins.lsp"}
   },
+  install = {
+    colorscheme = { "catppuccin" },
+  },
   checker = {
     enabled = true,
     notify = false,

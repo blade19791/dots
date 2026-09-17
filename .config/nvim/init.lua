@@ -1,5 +1,7 @@
 require("blade.core.options")
+require("blade.core.remote_clipboard").setup()
 require("blade.core.keymaps")
 require("blade.lazy")
 require("blade.lsp")
 require("blade.core.theme").setup()
+require("blade.core.transparency").setup()

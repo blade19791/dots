@@ -38,13 +38,7 @@ map("n", "<leader>Q", ":q!<CR>", {
 	desc = "Force quit",
 })
 
--- Buffer navigation
-map("n", "<S-l>", ":bnext<CR>", {
-	desc = "Next buffer",
-})
-map("n", "<S-h>", ":bprevious<CR>", {
-	desc = "Previous buffer",
-})
+-- Buffer navigation (bufferline also maps <S-h>/<S-l> to cycle buffers)
 map("n", "<leader>bb", ":bdelete<CR>", { desc = "Close current buffer" })
 
 -- Clear search highlight
@@ -96,6 +90,7 @@ map("n", "<leader>h", "<C-w>s", opts) -- split window horizontally
 map("n", "<leader>se", "<C-w>=", opts) -- make split windows equal width & height
 map("n", "<leader>xs", ":close<CR>", opts) -- close current split window
 
+
 -- Tabs
 map("n", "<leader>to", ":tabnew<CR>", opts) -- open new tab
 map("n", "<leader>tc", ":tabclose<CR>", opts) -- close current tab
@@ -146,29 +141,19 @@ end, {
 	desc = "Reload Neovim config",
 })
 
--- telescope theme keymaps
+-- Omarchy theme picker: change the desktop theme right from Neovim. Neovim
+-- follows automatically (see blade.core.theme).
 vim.keymap.set("n", "<leader>ft", function()
-	local telescope = require("telescope.builtin")
-	local actions = require("telescope.actions")
-	local action_state = require("telescope.actions.state")
 	local theme = require("blade.core.theme")
-
-	telescope.colorscheme({
-		enable_preview = true,
-		attach_mappings = function(_, map)
-			map("i", "<CR>", function(bufnr)
-				local selection = action_state.get_selected_entry()
-				actions.close(bufnr)
-				vim.cmd("colorscheme " .. selection.value)
-			end)
-
-			map("n", "<CR>", function(bufnr)
-				local selection = action_state.get_selected_entry()
-				actions.close(bufnr)
-				vim.cmd("colorscheme " .. selection.value)
-			end)
-
-			return true
+	local items = theme.list_themes()
+	vim.ui.select(items, {
+		prompt = "Select Omarchy theme",
+		format_item = function(item)
+			return item[1] .. "  (" .. item[2] .. ")"
 		end,
-	})
-end, { desc = "Select & save colorscheme" })
+	}, function(item)
+		if item then
+			theme.set_desktop_theme(item[1])
+		end
+	end)
+end, { desc = "Change desktop theme (omarchy)" })
