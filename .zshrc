@@ -3,9 +3,15 @@
 # ======================================================
 
 # ----------------------------------------
+# Omarchy environment (OMARCHY_PATH + PATH),
+# needed even for non-interactive shells
+# ----------------------------------------
+[[ -r /usr/share/omarchy/default/bash/env-bootstrap ]] && source /usr/share/omarchy/default/bash/env-bootstrap
+
+# ----------------------------------------
 # Starship prompt
 # ----------------------------------------
-export STARSHIP_CONFIG="$HOME/.config/starship/startship.toml"
+export STARSHIP_CONFIG="$HOME/.config/starship.toml"
 eval "$(starship init zsh)"
 
 # ----------------------------------------
@@ -15,27 +21,20 @@ export ZSH="$HOME/.oh-my-zsh"
 ZSH_THEME=""  # Starship replaces prompt
 export ZSH_CUSTOM="$HOME/.oh-my-zsh/custom"
 
-# Standard plugins (no zsh-autocomplete here)
+# Standard plugins
 plugins=(
   git
+  zsh-autosuggestions
   zsh-completions
   zsh-syntax-highlighting
-  zsh-autocomplete
 )
+
+# Inline suggestions: prefer completion candidates (commands, tools, files)
+# over history only.
+ZSH_AUTOSUGGEST_STRATEGY=(completion default)
 
 # Load Oh My Zsh
 source $ZSH/oh-my-zsh.sh
-
-# ----------------------------------------
-# zsh-autocomplete (Fish-like suggestions)
-# Must be sourced manually after OMZ is loaded
-# ----------------------------------------
-source $ZSH_CUSTOM/plugins/zsh-autocomplete/zsh-autocomplete.plugin.zsh
-
-# Inline suggestions like Fish
-ZSH_AUTOCOMPLETE_BUFFER_INLINE=true
-ZSH_AUTOCOMPLETE_HISTORY=true
-ZSH_AUTOCOMPLETE_FUZZY=1
 
 # ----------------------------------------
 # Completion system (extra)
