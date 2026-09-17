@@ -28,7 +28,7 @@ return {
     end,
     opts = {
         options = {
-            mode = "tabs", -- show tabpages as tabs instead of individual buffers
+            mode = "buffers", -- buffers, not tabpages: renders even with a single tabpage
             -- omarchy closes the buffer but keeps the window (Snacks.bufdelete);
             -- vim-bbye's :Bdelete does the same thing here.
             -- stylua: ignore
@@ -84,4 +84,3 @@ return {
         })
     end,
 }
-

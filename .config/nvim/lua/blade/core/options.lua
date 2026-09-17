@@ -64,8 +64,8 @@ vim.g.mapleader = " " -- Space as leader
 -- Remove clutter
 ----------------------------------------------------------
 vim.opt.fillchars = {
-    vert = " | ", -- remove window seperator to empty space
-    eob = " ",    -- end of buffer character to empty space
+	vert = "│", -- solid window separator line, no gaps (theme-colored)
+    eob = " ", -- end of buffer character to empty space
 }
 
 -- vim.cmd([[
